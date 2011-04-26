@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+# Simple script to colourise the output of svn status.
+# Can load a theme as a YAML hash from ~/.svnstat or relies on DATA at EOF
+# See ../etc/svnstat.yaml for an example
+require 'pp'
+require 'yaml'
+require 'rubygems'
+require 'highline'
+
+customconfig = File.join ENV["HOME"] , '.svnstat'
+
+if File.exists? customconfig then
+  config = YAML.load_file(customconfig)
+  puts 'Error reading config: ' + customconfig unless config && config['theme']
+end
+
+# Load defaults if needed
+config = YAML.load(DATA) unless config && config['theme']
+
+statuses = {" "=>"unchanged",
+            "!"=>"missing",
+            "A"=>"added",
+            "X"=>"external",
+            "M"=>"modified",
+            "C"=>"conflicted",
+            "D"=>"deleted",
+            "R"=>"replaced",
+            "~"=>"obstructed",
+            "?"=>"unversioned",
+            "I"=>"ignored"}
+
+HighLine.color_scheme = HighLine::ColorScheme.new config['theme']
+term = HighLine.new
+
+ARGF.each_line do |line|
+  print term.color(line, statuses[line[0,1]])  
+end
+ 
+# DEFAULT THEME, uses HighLineColorScheme constants
+# YAML 
+__END__
+theme:
+    unchanged: nil
+    added: blue
+    modified: green
+    unversioned: yellow
+    conflicted: magenta
+    deleted: red
+    ignored: [black, on_white]
+    external: cyan
+    missing: [white, on_red]
+    replaced: [black, on_red]
+    obstructed: [magenta, on_white]

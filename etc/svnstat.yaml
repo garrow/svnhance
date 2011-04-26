@@ -1,0 +1,15 @@
+# -*- Mode: YAML; -*-
+# Copy this to ~/.svnstat to customise the colour scheme.
+# Simple Hash of :status => [HighLine::ColorScheme constant]
+theme:
+    unchanged: nil
+    added: blue
+    modified: green
+    unversioned: yellow
+    conflicted: magenta
+    deleted: red
+    ignored: [black, on_white]
+    external: cyan
+    missing: [white, on_red]
+    replaced: [black, on_red]
+    obstructed: [magenta, on_white]
