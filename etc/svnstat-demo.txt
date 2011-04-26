@@ -1,0 +1,11 @@
+      no change
+M     modified
+A     added
+D     deleted
+!     missing
+?     unversioned
+C     conflicted
+X     external
+~     obstructed
+R     replaced
+I     ignored
